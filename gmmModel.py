@@ -24,14 +24,14 @@ def gmmModel(N, alpha, A, m0, m):
     newNodes = np.arange(m0, N) #IDs of the remaining nodes.
     probList = np.random.rand(N-m0) #Probability for each node.
 
-    
+
     while(np.size(newNodes) != 0): #Repeats for all new nodes.
 
-        chosedID = np.random.randint(low = 0, high = np.size(newNodes))
+        chosenID = np.random.randint(low = 0, high = np.size(newNodes))
 
         for i in range(m): #Repeats m times for the chosen node.
 
-            if(probList[chosedID] <= alpha):
+            if(probList[chosenID] <= alpha):
 
                 ## ER section
 
@@ -48,14 +48,14 @@ def gmmModel(N, alpha, A, m0, m):
 
                 #print "Menor igual a aplha."
             else:
-                
+
                 ## BA section
-                
 
 
 
-        newNodes = np.delete(newNodes, chosedID)
-        probList = np.delete(probList, chosedID)
+
+        newNodes = np.delete(newNodes, chosenID)
+        probList = np.delete(probList, chosenID)
 
 
     return G
