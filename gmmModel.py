@@ -16,27 +16,30 @@ def gmmModel(N, alpha, A, m0, m):
 
     G = ig.Graph.Full(m0, directed = False, loops = False)
 
-    #Adds the remaining vertices to the graph. No edges are added.
+    #Adds the remaining nodes to the graph. No edges are added.
     G.add_vertices(N-m0)
 
-    newNodes = np.arange(m0, N) #IDs of the new nodes.
+    newNodes = np.arange(m0, N) #IDs of the remaining nodes.
     probList = np.random.rand(N-m0) #Probability for each node.
 
     while(np.size(newNodes) != 0): #Repeats for all new nodes.
 
         chosedID = np.random.randint(low = 0, high = np.size(newNodes))
-        #print newNodes[chosedID]
 
         for i in range(m): #Repeats m times for the chosed node.
 
             if(probList[chosedID] <= alpha):
-                p = 1.0/(N-1)
-                probER = np.random.rand(N)
-                probER[chosedID] = 1.0 #No self-loops
 
-                for node in range(np.size(probER)):
-                    if(probER[node] <= p):
-                        G.add_edge(chosedID, node)
+                p = 1.0/(N-1)
+
+                erID = chosedID
+                while(erID == chosedID):
+                    erID = np.random.randint(N)
+
+                probER = np.random.rand()
+
+                if(probER <= p):
+                    G.add_edge(chosedID, erID)
 
                 #print "Menor igual a aplha."
             else:
