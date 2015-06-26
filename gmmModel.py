@@ -9,10 +9,12 @@ def preferentialAttachment():
     return True
 
 
-# This function creates a undirected network. it uses the model of
-# Gómez-Gardeñes and Moreno (ref here) to create networks with adjustable
-# tunable topology from scale-free to Erdös-Rényi.
 def gmmModel(N, alpha, A, m0, m):
+    """
+    This function creates a undirected network. it uses the model of
+    Gómez-Gardeñes and Moreno (ref here) to create networks with adjustable
+    tunable topology from scale-free to Erdös-Rényi.
+    """
 
     G = ig.Graph.Full(m0, directed = False, loops = False)
 
@@ -54,6 +56,9 @@ def gmmModel(N, alpha, A, m0, m):
 
     return G
 
-#Just a simple test.
-G = gmmModel(10000, 0.5, preferentialAttachment(), 4, 5)
-print G.vcount(), G.ecount()
+
+
+if __name__ == "__main__":
+    # A simple test
+    G = gmmModel(10000, 0.5, preferentialAttachment(), 4, 5)
+    print G.vcount(), G.ecount()
