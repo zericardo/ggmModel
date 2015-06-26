@@ -11,9 +11,26 @@ def preferentialAttachment():
 
 def gmmModel(N, alpha, A, m0, m):
     """
-    This function creates a undirected network. it uses the model of
+    This function creates a undirected network. It uses the model of
     Gómez-Gardeñes and Moreno (ref here) to create networks with adjustable
     tunable topology from scale-free to Erdös-Rényi.
+
+    Parameters
+    ----------
+    N : int
+        The size of the final netwrok.
+    alpha: float
+        Must be on the interval [0,1) and represents the probability of a node
+        with no connections be uniformely linked with any other node in the
+        network.
+    A : function
+        The preferential attachment function used for the preferential
+        attachment connections.
+    m0 : int
+        Number of nodes on the initial fully connected network.
+    m : int
+        Number of times that each chosen node can create a uniformely of
+        preferential attachment to different nodes.
     """
 
     G = ig.Graph.Full(m0, directed = False, loops = False)
@@ -51,8 +68,7 @@ def gmmModel(N, alpha, A, m0, m):
 
                 ## BA section
 
-
-
+            ##New probabilityList
 
         newNodes = np.delete(newNodes, chosenID)
         probList = np.delete(probList, chosenID)
