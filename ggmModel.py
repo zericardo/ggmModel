@@ -9,7 +9,7 @@ def preferentialAttachment():
     return True
 
 
-def gmmModel(N, alpha, A, m0, m):
+def ggmModel(N, alpha, A, m0, m):
     """
     This function creates a undirected network. It uses the model of
     Gómez-Gardeñes and Moreno (ref here) to create networks with adjustable
@@ -80,5 +80,5 @@ def gmmModel(N, alpha, A, m0, m):
 
 if __name__ == "__main__":
     # A simple test
-    G = gmmModel(10000, 0.5, preferentialAttachment(), 4, 5)
+    G = ggmModel(10000, 0.5, preferentialAttachment(), 4, 5)
     print G.vcount(), G.ecount()
