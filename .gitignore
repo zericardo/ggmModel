@@ -1,3 +1,8 @@
+# Usual output files...
+*saida
+*teste
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -5,7 +10,6 @@ __pycache__/
 
 # Notebook checkpoints
 *.ipynb_checkpoints/*
-
 
 # C extensions
 *.so
