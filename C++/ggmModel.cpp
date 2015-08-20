@@ -2,41 +2,47 @@
 #include <random>
 #include <fstream>
 #include <cstdlib>
-
-struct edge{
-  int from;
-  int to;
-};
+#include <cmath>
+#include <algorithm>
 
 int main(int argc, char *argv[]){
 
-  std::random_device rd;
-  std::mt19937 gen(rd());
-
   int N = atoi(argv[1]);
-  float K = atof(argv[2]);
-  float p = K/N;
+  int K = atoi(argv[2]); //Mean degree.
 
-  std::vector<edge> edgeList;
+  int M = (int) round(N*K/2.0);
+
+  std::default_random_engine generator;
+  std::uniform_int_distribution<int> distribution(0, N-1);
+
+  std::vector<std::vector<int>> edge_list(N);
   
-  for(int i = 0; i < N; i++)
-    for(int j = i+1; j < N; j++)
-      if(std::generate_canonical<double, 10>(gen) <= p){
+  int count  = 0;
+  int i, j;
 
-	edge aux;
+  while(count < M){
 
-	aux.from = i;
-	aux.to = j;
+    i = distribution(generator);
 
-	edgeList.push_back(aux);
-      }
+    //Avoiding self loops! 
+    do{
+      j = distribution(generator);
+    } while(j == i);
+      
+    if(!(std::find(edge_list[i].begin(), edge_list[i].end(), j) != edge_list[i].end())){
+      edge_list[i].push_back(j);
+      count += 1;
+    }
+    
+  }
 
   std::ofstream outFile;
 
   outFile.open(argv[3]);
 
-  for(std::vector<edge>::iterator it = edgeList.begin(); it != edgeList.end(); ++it)
-    outFile << it->from << " " << it->to << std::endl;
+  for(int k = 0; k < N; k++)
+    for(std::vector<int>::iterator it = edge_list[k].begin(); it != edge_list[k].end(); ++it)
+      outFile << k << " " << *it << std::endl;
 
   outFile.close();
 
