@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
   int N = atoi(argv[1]);
   int K = atoi(argv[2]); //Mean degree.
 
-  int M = (int) round(N*K/2.0);
+  int M = (int) round( (N-1)*K / 2.0 );
 
   std::default_random_engine generator;
   std::uniform_int_distribution<int> distribution(0, N-1);
@@ -20,17 +20,19 @@ int main(int argc, char *argv[]){
   int count  = 0;
   int i, j;
 
-  while(count < M){
-
+  while(count < M) {
+    
     i = distribution(generator);
-
+    
     //Avoiding self loops! 
-    do{
+    do {
       j = distribution(generator);
     } while(j == i);
-      
-    if(!(std::find(edge_list[i].begin(), edge_list[i].end(), j) != edge_list[i].end())){
+    
+    if ( !( std::find(edge_list[i].begin(), edge_list[i].end(), j) != edge_list[i].end() )
+	 && !( std::find(edge_list[j].begin(), edge_list[j].end(), i) != edge_list[j].end() ) ){
       edge_list[i].push_back(j);
+      edge_list[j].push_back(i);
       count += 1;
     }
     

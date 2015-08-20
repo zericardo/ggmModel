@@ -1,6 +1,9 @@
 # Usual output files...
 *saida
+*.dat
 *teste
+
+*.ipynb_checkpoints
 
 
 # Byte-compiled / optimized / DLL files
