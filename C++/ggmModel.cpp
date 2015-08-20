@@ -6,41 +6,68 @@
 #include <algorithm>
 
 int main(int argc, char *argv[]){
-
-  int N = atoi(argv[1]);
-  int K = atoi(argv[2]); //Mean degree.
-
-  int M = (int) round( (N-1)*K / 2.0 );
-
+  
+  int SEED = atoi(argv[1]);  // Seed
+  int N = atoi(argv[2]);     // Number of nodes
+  int M = atoi(argv[3]);     // Number of nodes
+  
+  int m0 = 5;                // Initial number of nodes
+  double alpha = 1.;         // Switching probability
+  
+  // Random generators
   std::default_random_engine generator;
-  std::uniform_int_distribution<int> distribution(0, N-1);
-
+  std::uniform_real_distribution<double> ureal(0., 1.);
+  
+  // Connections
   std::vector<std::vector<int>> edge_list(N);
   
-  int count  = 0;
-  int i, j;
-
-  while(count < M) {
-    
-    i = distribution(generator);
-    
-    //Avoiding self loops! 
-    do {
-      j = distribution(generator);
-    } while(j == i);
-    
-    if ( !( std::find(edge_list[i].begin(), edge_list[i].end(), j) != edge_list[i].end() )
-	 && !( std::find(edge_list[j].begin(), edge_list[j].end(), i) != edge_list[j].end() ) ){
+  // Index variables
+  int i, j, k;
+  
+  
+  
+  // Connecting the initial core
+  for ( j = 0; j < m0; j++ )
+  {
+    for ( i = j+1; i < m0; i++ )
+    {
       edge_list[i].push_back(j);
       edge_list[j].push_back(i);
-      count += 1;
     }
-    
   }
-
+  
+  
+  // Growing the network
+  for ( j = m0; j < N; j++)
+  {
+    
+    if ( ureal(generator) <= alpha) 
+    {
+      
+      // Erdos-Renyi branch
+      
+      for ( k = 0; k < M; k++ )
+      {
+	// Choosing a pair
+	i = (j-1)*ureal(generator);
+	edge_list[i].push_back(j);
+	edge_list[j].push_back(i);
+      }
+      
+    }
+    else {
+      
+      // Barabasi-Albert branch
+      
+      
+      
+    }
+  }
+  
+  
   std::ofstream outFile;
 
-  outFile.open(argv[3]);
+  outFile.open(argv[4]);
 
   for(int k = 0; k < N; k++)
     for(std::vector<int>::iterator it = edge_list[k].begin(); it != edge_list[k].end(); ++it)
