@@ -2,6 +2,7 @@
 *saida
 *.dat
 *teste
+*ggmModel
 
 *.ipynb_checkpoints
 
