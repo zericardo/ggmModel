@@ -10,6 +10,9 @@ int main(int argc, char *argv[]){
   int SEED = atoi(argv[1]);  // Seed
   int N = atoi(argv[2]);     // Number of nodes
   int M = atoi(argv[3]);     // Number of nodes
+  double *V;
+  V = (double *) malloc(N*sizeof(double));
+  
   
   int m0 = 5;                // Initial number of nodes
   double alpha = 1.;         // Switching probability
