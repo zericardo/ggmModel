@@ -17,12 +17,12 @@
 
 int main(int argc, char *argv[]){
   
-  int SEED = atoi(argv[1]);  // Seed for default_random_engine
-  int N = atoi(argv[2]);     // Number of nodes
-  int M = atoi(argv[3]);     // Number of nodes
+  int SEED     = atoi(argv[1]);  // Seed for default_random_engine
+  int N        = atoi(argv[2]);  // Number of nodes
+  int M        = atoi(argv[3]);  // Number of nodes
+  double alpha = atoi(argv[4]);  // Switching probability
   
   int m0 = 5;                // Initial number of nodes
-  double alpha = 1.;         // Switching probability
   int NConns;                // Number of connections
   
   
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]){
     }
     
     // Initializing the cumulative vector
-    CumDg[j] = m0-1*(j+1);
+    CumDg[j] = (m0 - 1)*(j+1);
   }
   NConns = m0*(m0-1)/2;
   
@@ -94,13 +94,15 @@ int main(int argc, char *argv[]){
 	int Q = NConns*(ureal(generator));
 	i = 0;
 	while( i >= 0 )
+	{
+	  if ( Q <= CumDg[i] )
 	  {
-	    if ( Q <= CumDg[i] )
-	      {
-		to = i; // to = HashNds[i]
-		i = -1;
-	      }
+	    to = i; // to = HashNds[i]
+	    i = -10; // breaking loop
 	  }
+	  
+	  i++;
+	}
 	
 	edge_list[from].push_back(to);
 	CumDg[from]++;
@@ -116,15 +118,21 @@ int main(int argc, char *argv[]){
   }
   
   
+  
+  // ****
+  // Writing the output
+  //
+  
   std::ofstream outFile;
-
-  outFile.open(argv[4]);
+  outFile.open(argv[5]);
 
   for(int k = 0; k < N; k++)
     for(std::vector<int>::iterator it = edge_list[k].begin(); it != edge_list[k].end(); ++it)
       outFile << k << " " << *it << std::endl;
 
   outFile.close();
-
+  
+  
+  // The end, my friend
   return 0;
 } 
