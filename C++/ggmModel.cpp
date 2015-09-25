@@ -118,17 +118,21 @@ int main(int argc, char *argv[]){
   }
   
   
-  
   // ****
-  // Writing the output
+  // Writing the (sorted) output 
   //
   
   std::ofstream outFile;
   outFile.open(argv[5]);
 
-  for(int k = 0; k < N; k++)
+  for(int k = 0; k < N; k++){
+
+    //Sorting the elements before write them.
+    std::sort(edge_list[k].begin(), edge_list[k].end());
+
     for(std::vector<int>::iterator it = edge_list[k].begin(); it != edge_list[k].end(); ++it)
       outFile << k << " " << *it << std::endl;
+  }
 
   outFile.close();
   
