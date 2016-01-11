@@ -22,8 +22,8 @@ int main(int argc, char *argv[]){
   int M        = atoi(argv[3]);  // Number of nodes
   double alpha = atoi(argv[4]);  // Switching probability
   
-  int m0 = 5;                // Initial number of nodes
-  int NConns;                // Number of connections
+  int m0 = 5;                    // Initial number of nodes
+  int NConns;                    // Number of connections
   
   
   double *CumDg, *HashNds;
@@ -75,7 +75,12 @@ int main(int argc, char *argv[]){
       for ( k = 0; k < M; k++ )
       {
 	// Choosing a pair
-	to = (from - 1)*ureal(generator);
+	int key = 0;
+	while ( key == 0 )
+	{
+	  to = (N-1)*ureal(generator);
+	  if ( to != from ) { key = 1; }
+	}
 	
 	edge_list[to].push_back(from);
 	CumDg[to]++;
@@ -124,16 +129,16 @@ int main(int argc, char *argv[]){
   
   std::ofstream outFile;
   outFile.open(argv[5]);
-
+  
   for(int k = 0; k < N; k++){
-
+    
     //Sorting the elements before write them.
     std::sort(edge_list[k].begin(), edge_list[k].end());
-
+    
     for(std::vector<int>::iterator it = edge_list[k].begin(); it != edge_list[k].end(); ++it)
       outFile << k << " " << *it << std::endl;
   }
-
+  
   outFile.close();
   
   
