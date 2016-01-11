@@ -74,12 +74,18 @@ int main(int argc, char *argv[]){
       // Erdos-Renyi branch
       for ( k = 0; k < M; k++ )
       {
+	
+	// Logical keys
+	int key = 0;         // This key checks for (1) multi-connections and (2) self-connections
+
 	// Choosing a pair
-	int key = 0;
 	while ( key == 0 )
 	{
 	  to = (N-1)*ureal(generator);
-	  if ( to != from ) { key = 1; }
+	  if ( to != from && std::find(edge_list[to].begin(), edge_list[to].end(), from) == edge_list[to].end() )
+	  {
+	    key = 1;
+	  }
 	}
 	
 	edge_list[to].push_back(from);
